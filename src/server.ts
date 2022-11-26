@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 
-import orders_routes from './handlers/order'
-import products_routes from './handlers/product'
-import dashboard_routes from './handlers/dashboard'
-import users_routes from './handlers/user'
+import writers_routes from './handlers/writer'
+import boards_routes from './handlers/board'
+import documents_routes from './handlers/document'
+import comments_routes from './handlers/comment'
 
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
@@ -14,15 +14,15 @@ app.use(express.json())
 
 // middleware 2
 const corsOptions = {
-	origin: 'http://someotherdomain.com',
+	origin: 'http://localhost:8080',
 	optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
 
-orders_routes(app)
-products_routes(app)
-users_routes(app)
-dashboard_routes(app)
+writers_routes(app)
+boards_routes(app)
+documents_routes(app)
+comments_routes(app)
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)

@@ -1,102 +1,100 @@
 # API Endpoints
 #### [token required]: bearer token, see TOKEN_AUTH in *.env* in README.md
-## Products
-- Index
-    - `/products` [GET]
-    - Returns the list of products.
-- Show
-    - `/products/:id` [GET]
-    - Returns a product.
-- Create [token required]
-    - `/products` [POST]
-    - Allows you to submit a new product.
-    - The request body needs to be in JSON format and include the following properties:
-        - name - String - required
-        - price - Integer - required
-    ```
-    POST /products
-    Authorization: Bearer <TOKEN_AUTH>
-
-    {
-        "name": "french fries",
-        "price": 50
-    }
-    ```
-
-## Users
+## Writers
 - Index [token required]
-    - `/users` [GET]
-    - Returns the list of users.
+    - `/writers` [GET]
+    - Returns the list of writers.
 - Show [token required]
-    - `/users/:id` [GET]
-    - Returns a user.
-- Create [token required]
-    - `/users` [POST]
-    - Allows you to submit a new user.
+    - `/writers/:wid` [GET]
+    - Returns a writer.
+- Create
+    - `/writers` [POST]
+    - Allows you to submit a new writer.
     - Returns an authorization token
     - The request body needs to be in JSON format and include the following properties:
-        - first_name - String - required
-        - last_name - String - required
         - username - String - required
         - password - String - required
     ```
-    POST /users
-    Authorization: Bearer <TOKEN_AUTH>
+    POST /writers
 
     {
-        "first_name": "foo",
-        "last_name": "bar",
-        "username": "foobar",
-        "password": "baz"
+        "username": "frenchfries",
+        "password": "my-password"
     }
     ```
-
-## Orders
-- Add product to order [token required]
-    - `/orders/addProduct` [POST]
-    - Allows you to submit a new product and quantity to order.
+- Authenticate
+    - `/authenticate?username=<username>&password=<password>` [GET]
+    - Authenticate username and password
+    - Returns an authorization token
+    
+## Boards
+- Index [token required]
+    - `/boards` [GET]
+    - Returns the list of boards.
+- Create [token required]
+    - `/boards` [POST]
+    - Allows you to submit a new board.
     - The request body needs to be in JSON format and include the following properties:
-        - quantity - Integer - required
-        - order_id - Integer - required
-        - product_id - Integer - required
+        - boardname - String - required
     ```
-    POST /orders/addProduct
+    POST /boards
     Authorization: Bearer <TOKEN_AUTH>
 
     {
-        "quantity": "1",
-        "order_id": "1",
-        "product_id": "1"
+        "boardname": "foobar",
     }
     ```
 
-- Current Order by user [token required]
-    - `/orders/:id` [GET]
-    - Allows you to retrieve current order by user.
-    - The path parameter requires user id.
+## Documents
+- Index [token required]
+    - `/documents/:bid` [GET]
+    - Returns the list of documents in the board.
+- Create [token required]
+    - `/documents` [POST]
+    - Allows you to submit a new document.
+    - The request body needs to be in JSON format and include the following properties:
+        - wid - String - writer id, required
+        - bid - String - board id, required
+        - documentname - String - required
+        - content - String - required
+    ```
+    POST /documents
+    Authorization: Bearer <TOKEN_AUTH>
 
-# Data Shapes
-## Product
-- id
-- name
-- price
+    {
+        "wid": "2",
+        "bid": "2",
+        "documentname": "new documentname",
+        "content": "to-be-updated"
+    }
+    ```
+- Delete [token required]
+    - `/documents?did=<documentId>` [DELETE]
 
-## User
-- id
-- firstName
-- lastName
-- username
-- password_digest
+## Comments
+- Index [token required]
+    - `/comments/:did` [GET]
+    - Returns the list of comments in the document.
+- Create [token required]
+    - `/comments` [POST]
+    - Allows you to submit a new comment.
+    - The request body needs to be in JSON format and include the following properties:
+        - wid - String - writer id, required
+        - did - String - document id, required
+        - content - String - required
+    ```
+    POST /comments
+    Authorization: Bearer <TOKEN_AUTH>
 
-## Orders
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+    {
+        "wid": 2,
+        "did": 1,
+        "content":"comment-to-be-updated"
+    }
+    ```
+- Delete [token required]
+    - `/comments?cid=<commentId>` [DELETE]
 
-# Database Tables and Columns
-- products (id SERIAL PRIMARY KEY, name VARCHAR(128), price integer)
-- users (id SERIAL PRIMARY KEY, first_name VARCHAR(128), last_name VARCHAR(128), username VARCHAR(128), password_digest text)
-- orders (id SERIAL PRIMARY KEY, user_id bigint REFERENCES users(id), order_status status_type)
-- order_products (id SERIAL PRIMARY KEY, quantity integer, order_id bigint REFERENCES orders(id), product_id bigint REFERENCES products(id))
+## Database tables and columns
+- <a href="https://chivalrous-newsprint-a46.notion.site/DB-1fe1022150b14c1f858b22cfd01455d4" title="Database tables and columns">Database implementation</a>
+    

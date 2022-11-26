@@ -1,5 +1,5 @@
-# Shopping-API
-This API allows you to reserve a shopping order.
+# bulletin-board-api
+This API allows you to connect to bulletin board
 
 The API will be available at http://hostUrl:3000 after running the project
 
@@ -72,9 +72,9 @@ The API will be available at http://hostUrl:3000 after running the project
 
 ## Sample URLs for API Endpoints
 - see REQUIREMENTS.md for API Endpoints
-   ### Products
-   - Index: http://HostURL:3000/products
-   - Show: http://HostURL:3000/products/1
+   ### Documents
+   - Index: http://HostURL:3000/board
+   - Show: http://HostURL:3000/documents/:boardId
 
 ## Ports
 - backend : 3000 (see src/server.ts)
